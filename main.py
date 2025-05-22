@@ -616,8 +616,11 @@ class ImageOutpaintingApp:
             if os.name == 'nt':  # Windows
                 os.startfile(self.folders['output'])
             elif os.name == 'posix':  # macOS and Linux
-                os.system(f'open "{self.folders['output']}"' if os.uname().sysname == 'Darwin' 
-                         else f'xdg-open "{self.folders['output']}"')
+                output_path = self.folders['output']
+                if os.uname().sysname == 'Darwin':
+                    os.system(f'open "{output_path}"')
+                else:
+                    os.system(f'xdg-open "{output_path}"')
             self.update_status("Output folder opened")
         except Exception as e:
             messagebox.showerror("Error", f"Could not open folder: {str(e)}")
